@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vote Puskas</title>
+<style>
+  body{margin:0;background:#000;color:#fff;font-family:Arial}
+  h1{text-align:center}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:20px}
+  .card{border:1px solid #444;padding:12px;text-align:center;border-radius:10px}
+  button{margin-top:8px;padding:6px 14px;border:none;border-radius:20px;background:gold;font-weight:bold}
+</style>
+</head>
+<body>
+
+<h1>PUSKÁS AWARDS – VOTE</h1>
+
+<div class="grid" id="grid"></div>
+
+<script>
+const players = [
+  "XYDEPZ",
+  "ALEJANDRO ALBY",
+  "KAITO TANAKA",
+  "HAPISZ",
+  "OSCAR",
+  "NDRAA",
+  "APRILXZ",
+  "RANZZ",
+  "FLUZAO",
+  "HOLGADO",
+  "BRAN",
+  "JUAN DILZZ"
+];
+
+let votes = JSON.parse(localStorage.getItem("votes") || "{}");
+let voted = JSON.parse(localStorage.getItem("voted") || "{}");
+
+const grid = document.getElementById("grid");
+
+function render(){
+  grid.innerHTML = "";
+  players.forEach(name=>{
+    const div = document.createElement("div");
+    div.className = "card";
+    div.innerHTML = `
+      <div><b>${name}</b></div>
+      <div>${votes[name] || 0} vote</div>
+      <button onclick="vote('${name}')">VOTE</button>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+function vote(name){
+  if(voted[name]){
+    alert("Lu udah vote pemain ini");
+    return;
+  }
+  votes[name] = (votes[name] || 0) + 1;
+  voted[name] = true;
+  localStorage.setItem("votes", JSON.stringify(votes));
+  localStorage.setItem("voted", JSON.stringify(voted));
+  render();
+}
+
+render();
+</script>
+
+</body>
+</html>
